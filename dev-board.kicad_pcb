@@ -63,14 +63,14 @@
 			(dxfusepcbnewfont yes)
 			(psnegative no)
 			(psa4output no)
-			(plot_black_and_white yes)
+			(plot_black_and_white no)
 			(sketchpadsonfab no)
 			(plotpadnumbers no)
 			(hidednponfab no)
 			(sketchdnponfab yes)
 			(crossoutdnponfab yes)
 			(subtractmaskfromsilk no)
-			(outputformat 1)
+			(outputformat 5)
 			(mirror no)
 			(drillshape 0)
 			(scaleselection 1)
@@ -510,7 +510,7 @@
 			(uuid "15826549-9181-4933-9b55-cbefdc43b57d")
 		)
 		(embedded_fonts no)
-		(model "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/SW-SMD_L3.9-W2.9-H2.0-LS4.8.wrl"
+		(model "${KIPRJMOD}/3d-models/SW-SMD_L3.9-W2.9-H2.0-LS4.8.step"
 			(offset
 				(xyz 0 -0 -0)
 			)
@@ -1590,7 +1590,7 @@
 			(uuid "8c1d5777-5b9f-40a6-b444-6c0594ea925b")
 		)
 		(embedded_fonts no)
-		(model "/Users/chrisgreening/Library/CloudStorage/Dropbox/Work/kicad/library/TYPE-C-31-M-12/TYPE-C-31-M-12.step"
+		(model "${KIPRJMOD}/3d-models/TYPE-C-31-M-12.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -3083,7 +3083,7 @@
 			(uuid "7fbc2f61-3372-4a09-a82d-b435ef93abe2")
 		)
 		(embedded_fonts no)
-		(model "${EASYEDA2KICAD}/easyeda2kicad.3dshapes/SW-SMD_L3.9-W2.9-H2.0-LS4.8.wrl"
+		(model "${KIPRJMOD}/3d-models/SW-SMD_L3.9-W2.9-H2.0-LS4.8.step"
 			(offset
 				(xyz 0 -0 -0)
 			)
