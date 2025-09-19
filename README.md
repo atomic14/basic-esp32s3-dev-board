@@ -2,6 +2,8 @@
 
 # Very Basic ESP32-S3 Dev Board
 
+More details available with this video [here](https://youtu.be/YMnd2NHENCI)
+
 This is a super simple ESP32-S3 Dev Board with the bare mininum required to get it working.
 
 We have:
