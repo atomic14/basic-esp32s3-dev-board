@@ -45,7 +45,7 @@ jobs:
           kicad-cli pcb export drill --output gerbers --format excellon --map-format pdf ./dev-board.kicad_pcb
           kicad-cli pcb export step --subst-models --output dev-board.step ./dev-board.kicad_pcb || true
           kicad-cli pcb export svg --layers B.Cu,F.Cu,F.Silkscreen,Edge.Cuts,F.Mask --exclude-drawing-sheet  --fit-page-to-board --output pcb.svg ./dev-board.kicad_pcb
-          kicad-cli pcb render --output pcb-3d.png --width 1600 --height 1200 ./dev-board.kicad_pcb || true
+          kicad-cli pcb render dev-board.kicad_pcb --width 1600 --height 1200 --output pcb-3d.png --rotate 325,0,70
 
       - name: Upload schematic (PDF)
         uses: actions/upload-artifact@v4
