@@ -25,6 +25,8 @@ Things that we don't have:
 
 ## PCB
 
-![PCB Render](docs/pcb.png)
+![PCB Render](docs/pcb.svg)
 
 - 3D Model (STEP): [docs/dev-board.step](docs/dev-board.step)
+
+![3D Model](docs/pcb-3d.png)
