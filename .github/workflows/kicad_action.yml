@@ -1,0 +1,118 @@
+name: KiCad CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: kicad/kicad:9.0
+      options: --user 0
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Ensure 3D libraries and tools
+        run: |
+          set -eu
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends git librsvg2-bin kicad-packages3d
+
+      - name: Prepare 3D libraries and env vars
+        run: |
+          set -eu
+          mkdir -p third_party/3dmodels/com_github_espressif_kicad-libraries
+          git clone --depth 1 https://github.com/espressif/kicad-libraries espressif-kicad
+          if [ -d espressif-kicad/3dmodels/espressif.3dshapes ]; then
+            mv espressif-kicad/3dmodels/espressif.3dshapes third_party/3dmodels/com_github_espressif_kicad-libraries/espressif.3dshapes
+          fi
+          mkdir -p third_party/easyeda2kicad/easyeda2kicad.3dshapes
+          echo "KICAD9_3DMODEL_DIR=/usr/share/kicad/3dmodels" >> $GITHUB_ENV
+          echo "KICAD8_3RD_PARTY=$GITHUB_WORKSPACE/third_party" >> $GITHUB_ENV
+          echo "EASYEDA2KICAD=$GITHUB_WORKSPACE/third_party/easyeda2kicad" >> $GITHUB_ENV
+
+      - name: Export with kicad-cli
+        run: |
+          set -eu
+          kicad-cli sch export pdf --output schematic.pdf ./dev-board.kicad_sch
+          kicad-cli sch export svg --output schematic.svg ./dev-board.kicad_sch
+          kicad-cli pcb export gerbers --output gerbers --layers F.Cu,B.Cu,F.Mask,B.Mask,F.SilkS,B.SilkS,Edge.Cuts ./dev-board.kicad_pcb
+          kicad-cli pcb export drill --output gerbers --format excellon --map-format pdf ./dev-board.kicad_pcb
+          kicad-cli pcb export step --subst-models --output dev-board.step ./dev-board.kicad_pcb || true
+          kicad-cli pcb export svg --layers B.Cu,F.Cu,F.Silkscreen,Edge.Cuts,F.Mask --exclude-drawing-sheet  --fit-page-to-board --output pcb.svg ./dev-board.kicad_pcb
+          kicad-cli pcb render --output pcb-3d.png --width 1600 --height 1200 ./dev-board.kicad_pcb || true
+
+      - name: Upload schematic (PDF)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Schematic PDF
+          path: ./schematic.pdf
+          if-no-files-found: error
+
+      - name: Upload schematic (SVG)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Schematic SVG
+          path: ./schematic.svg
+          if-no-files-found: error
+
+      - name: Upload gerbers and drill files
+        uses: actions/upload-artifact@v4
+        with:
+          name: Gerbers
+          path: ./gerbers
+          if-no-files-found: error
+
+      - name: Upload PCB image (SVG)
+        uses: actions/upload-artifact@v4
+        with:
+          name: PCB Image
+          path: ./pcb.svg
+          if-no-files-found: error
+
+      - name: Upload 3D model (STEP)
+        uses: actions/upload-artifact@v4
+        with:
+          name: STEP Model
+          path: ./dev-board.step
+          if-no-files-found: warn
+
+      - name: Upload 3D board render (PNG)
+        uses: actions/upload-artifact@v4
+        with:
+          name: PCB 3D Render
+          path: ./pcb-3d.png
+          if-no-files-found: warn
+
+      - name: Publish docs artifacts
+        if: github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p docs
+          if [ -f pcb.svg ]; then cp -f pcb.svg docs/pcb.svg; fi
+          if [ -f pcb-3d.png ]; then cp -f pcb-3d.png docs/pcb-3d.png; fi
+          if [ -f schematic.pdf ]; then cp -f schematic.pdf docs/schematic.pdf; fi
+          if [ -d schematic.svg ]; then mkdir -p docs/schematic.svg && cp -f schematic.svg/*.svg docs/schematic.svg/ || true; fi
+          if [ -f schematic.svg ]; then cp -f schematic.svg docs/schematic.svg || true; fi
+          if [ -f dev-board.step ]; then cp -f dev-board.step docs/dev-board.step; fi
+
+      - name: Mark repo safe for git
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Commit docs artifacts
+        if: github.ref == 'refs/heads/main'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Update docs artifacts (schematic, PCB images, STEP) [skip ci]'
+          file_pattern: |
+            docs/pcb.svg
+            docs/pcb-3d.png
+            docs/schematic.pdf
+            docs/schematic.svg
+            docs/dev-board.step

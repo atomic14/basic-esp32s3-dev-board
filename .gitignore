@@ -44,3 +44,7 @@ gerbers
 gerbers.zip
 
 dev-board-backups
+
+*.lck
+*.svg
+*.png
