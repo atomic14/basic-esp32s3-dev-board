@@ -100,6 +100,12 @@ jobs:
           if [ -f schematic.svg ]; then cp -f schematic.svg docs/schematic.svg || true; fi
           if [ -f dev-board.step ]; then cp -f dev-board.step docs/dev-board.step; fi
 
+      - name: Show pending changes
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git status --porcelain
+          ls -la docs || true
+
       - name: Mark repo safe for git
         if: github.ref == 'refs/heads/main'
         run: |
@@ -111,8 +117,4 @@ jobs:
         with:
           commit_message: 'Update docs artifacts (schematic, PCB images, STEP) [skip ci]'
           file_pattern: |
-            docs/pcb.svg
-            docs/pcb-3d.png
-            docs/schematic.pdf
-            docs/schematic.svg
-            docs/dev-board.step
+            docs/**
