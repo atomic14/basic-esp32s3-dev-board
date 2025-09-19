@@ -6,6 +6,8 @@ More details available with this video [here](https://youtu.be/YMnd2NHENCI)
 
 This is a super simple ESP32-S3 Dev Board with the bare mininum required to get it working.
 
+[![Support on Patreon](https://img.shields.io/badge/Support-Patreon-f96854?logo=patreon&logoColor=white)](https://www.patreon.com/atomic14)
+
 We have:
 
 - USB-C connector with 5.1K pull down resistors on CC1 and CC2
