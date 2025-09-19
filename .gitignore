@@ -48,3 +48,11 @@ dev-board-backups
 *.lck
 *.svg
 *.png
+
+# Allow published docs assets
+!docs/
+!docs/**/*.svg
+!docs/**/*.png
+!docs/schematic.pdf
+!docs/dev-board.step
+!docs/schematic.svg/**
