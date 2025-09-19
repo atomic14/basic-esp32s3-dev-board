@@ -21,7 +21,7 @@ Things that we don't have:
 
 - View the schematic PDF: [docs/schematic.pdf](docs/schematic.pdf)
 
-![Schematic](docs/schematic.svg)
+![Schematic](docs/schematic.svg/dev-board.svg)
 
 ## PCB
 
