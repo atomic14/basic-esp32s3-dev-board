@@ -4,7 +4,10 @@
 
 More details available with this video [here](https://youtu.be/YMnd2NHENCI)
 
-[![Youtube Video](https://github.com/user-attachments/assets/ca363646-fafc-4cfd-a340-8f505fd712a3)](https://www.youtube.com/watch?v=enlcWor7sPM)
+[![Design Video](https://github.com/user-attachments/assets/ca363646-fafc-4cfd-a340-8f505fd712a3)](https://www.youtube.com/watch?v=enlcWor7sPM)
+
+[![Assembly Video](https://github.com/user-attachments/assets/214b8620-fdf2-44a1-95cb-2557ad058fe1)](https://youtu.be/KziOUBjNtWw)
+
 
 This is a super simple ESP32-S3 Dev Board with the bare mininum required to get it working.
 
