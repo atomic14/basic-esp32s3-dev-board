@@ -454,6 +454,7 @@
       "single_global_label": "ignore",
       "unannotated": "error",
       "unconnected_wire_endpoint": "warning",
+      "undefined_netclass": "error",
       "unit_value_mismatch": "error",
       "unresolved_variable": "error",
       "wire_dangling": "error"
@@ -649,6 +650,10 @@
     [
       "cb9cde49-491c-4637-83a4-9a90127d65a1",
       "Root"
+    ],
+    [
+      "38c31c48-9a7d-4315-94c3-8a54038cef3d",
+      "Power Circuits"
     ]
   ],
   "text_variables": {}
